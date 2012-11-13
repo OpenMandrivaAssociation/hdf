@@ -1,0 +1,561 @@
+diff -Naurp HDF4.2r4/hdf/util/hdf2gif.c HDF4.2r4.oden/hdf/util/hdf2gif.c
+--- HDF4.2r4/hdf/util/hdf2gif.c	2007-09-10 18:36:16.000000000 +0200
++++ HDF4.2r4.oden/hdf/util/hdf2gif.c	2009-08-17 13:49:59.000000000 +0200
+@@ -143,7 +143,7 @@ int main(int argc , char **argv) {
+ 	if(file_id == -1) {
+ 		printf("Unable to open HDF file");
+ 		status = HEvalue(1);
+-		printf(HEstring(status));
++		printf("%s", HEstring(status));
+ 		exit(0);
+ 	}
+ 	
+@@ -162,7 +162,7 @@ int main(int argc , char **argv) {
+ 	
+ 	if ((status = GRfileinfo(gr_id , &n_images , &n_fileattributes)) == -1) {
+ 		status = HEvalue(1);
+-		printf(HEstring(status));
++		printf("%s", HEstring(status));
+ 		exit(0);
+ 	}
+ 	
+diff -Naurp HDF4.2r4/hdf/util/writehdf.c HDF4.2r4.oden/hdf/util/writehdf.c
+--- HDF4.2r4/hdf/util/writehdf.c	2007-09-10 18:36:16.000000000 +0200
++++ HDF4.2r4.oden/hdf/util/writehdf.c	2009-08-17 13:49:59.000000000 +0200
+@@ -77,13 +77,13 @@ char     *GIFFileName;
+ 	if(file_id == -1) {
+ 		printf("Unable to create HDF file");
+ 		status = HEvalue(1);
+-		printf(HEstring(status));
++		printf("%s", HEstring(status));
+ 		exit(0);
+ 	}
+ 
+ 	if ((status = Vstart(file_id)) == -1) {
+ 		printf("Could not start VGroup interface\n");
+-		printf(HEstring(HEvalue(1)));
++		printf("%s", HEstring(HEvalue(1)));
+ 		exit(-1);
+ 	}
+ 
+@@ -99,7 +99,7 @@ char     *GIFFileName;
+ 		status = Vsetattr (vgroup_id, "Global Palette" , DFNT_UINT8, 3 * gifHead.TableSize , (VOIDP)gifHead.HDFPalette);
+ 		if (status) {
+ 			printf("Could not add global palette.\n");
+-			printf(HEstring(HEvalue(1)));
++			printf("%s", HEstring(HEvalue(1)));
+ 		}
+ 	}
+ 	for (i = 0 ; i < CommentCount ; i++) {
+@@ -144,14 +144,14 @@ char     *GIFFileName;
+ 		/* GRSetCompress */
+ 		if ((status = GRsetcompress(ri_id, comp_type, &c_info)) == -1) {
+ 			printf("Error occured while setting compression\n");
+-			printf(HEstring(HEvalue(1)));
++			printf("%s", HEstring(HEvalue(1)));
+ 			exit(-1);
+ 		}
+ 
+ 		/* Write the GR Image */
+ 		if ((status = GRwriteimage(ri_id, start, NULL, edges, (VOIDP)gifImageDesc.Image)) == -1) {
+ 			printf("Error occured while trying to write GR image\n");
+-			printf(HEstring(HEvalue(1)));
++			printf("%s", HEstring(HEvalue(1)));
+ 			exit(-1);
+ 		}
+ 
+@@ -160,7 +160,7 @@ char     *GIFFileName;
+ 
+ 		if ((status = GRwritelut (pal_id , 3, DFNT_UINT8, interlace_mode, 256, (VOIDP)gifImageDesc.HDFPalette)) == -1) {
+ 			printf("Could not write palette\n");
+-			printf(HEstring(HEvalue(1)));
++			printf("%s", HEstring(HEvalue(1)));
+ 			exit(-1);
+ 		}
+ 		
+@@ -169,7 +169,7 @@ char     *GIFFileName;
+ 		
+ 		if ((status = GRendaccess(ri_id)) == -1) {
+ 			printf("Could not terminate GR access\n");
+-			printf(HEstring(HEvalue(1)));
++			printf("%s", HEstring(HEvalue(1)));
+ 			exit(-1);
+ 		}
+ 
+@@ -178,7 +178,7 @@ char     *GIFFileName;
+ 		/* Adding GR to vgroup */
+ 		if((status = Vaddtagref(vgroup_id,(int32)1965,gr_ref))==-1) {
+ 			printf("Could not add tag to Vgroup");
+-			printf(HEstring(HEvalue(1)));
++			printf("%s", HEstring(HEvalue(1)));
+ 		}
+ 
+ 		
+@@ -187,28 +187,28 @@ char     *GIFFileName;
+ 	/* Terminate GR access */
+ 	if ((status = GRend (gr_id))==-1) {
+ 		printf("Could not end GR access\n");
+-		printf(HEstring(HEvalue(1)));
++		printf("%s", HEstring(HEvalue(1)));
+ 		printf("Trying to continue (file may be corrupt)...\n");
+ 	}
+ 	
+ 	/* Terminate access to the VGroup */
+ 	if ((status = Vdetach(vgroup_id))==-1) {
+ 		printf("Could not detach Vgroup\n");
+-		printf(HEstring(HEvalue(1)));
++		printf("%s", HEstring(HEvalue(1)));
+ 		printf("Trying to continure (file may be corrupt)...\n");
+ 	}
+ 
+ 	/* Terminate access to the V interface */
+ 	if ((status = Vend(file_id))==-1) {
+ 		printf("Could not end VGroup access\n");
+-		printf(HEstring(HEvalue(1)));
++		printf("%s", HEstring(HEvalue(1)));
+ 		printf("Trying to continure (file may be corrupt)... \n");
+ 	}
+ 
+ 	/* Close the HDF file */
+ 	if ((status = Hclose (file_id))==-1) {
+ 		printf("Could not close HDF file. Fatal Error");
+-		printf(HEstring(HEvalue(1)));
++		printf("%s", HEstring(HEvalue(1)));
+ 		return(-1);
+ 	}
+ 	return(0);
+diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/hdfimport.c
+--- HDF4.2r4/mfhdf/hdfimport/hdfimport.c	2007-12-03 21:31:07.000000000 +0100
++++ HDF4.2r4.oden/mfhdf/hdfimport/hdfimport.c	2009-08-17 13:49:59.000000000 +0200
+@@ -622,7 +622,7 @@ main(int argc, char *argv[])
+ 	      break;
+ 	    case ERR:   /* command syntax error */
+ 	    default:
+-	      (void) fprintf(stderr, err2);
++	      (void) fprintf(stderr, "%s", err2);
+ 	      usage(argv[0]);
+ 	      goto err;
+             }
+@@ -633,7 +633,7 @@ main(int argc, char *argv[])
+      */
+     if (!outfile_named)
+       {
+-          (void) fprintf(stderr, err3);
++          (void) fprintf(stderr, "%s", err3);
+           usage(argv[0]);
+           goto err;
+       }
+@@ -650,7 +650,7 @@ main(int argc, char *argv[])
+     return(0);
+ 
+   err:
+-    (void) fprintf(stderr, err4);
++    (void) fprintf(stderr, "%s", err4);
+     return(1);
+ }
+ 
+@@ -954,7 +954,7 @@ gdimen(struct infilesformat infile_info,
+ 	sds_name = (char *)HDmalloc(name_len+1);
+ 	if (sds_name == NULL)
+           {
+-            (void) fprintf(stderr, err6);
++            (void) fprintf(stderr, "%s", err6);
+             goto err;
+           }
+ 
+@@ -2221,7 +2221,7 @@ indexes(float32 *scale, int dim, int *id
+      */
+     if ((midpt = (float32 *) HDmalloc((size_t) dim * sizeof(float32))) == NULL)
+       {
+-          (void) fprintf(stderr, err1);
++          (void) fprintf(stderr, "%s", err1);
+           goto err;
+       }
+     for (i = 0; i < dim - 1; i++)
+@@ -2323,13 +2323,13 @@ interp(struct Input *in, struct Raster *
+      */
+     if ((hratio = (float32 *) HDmalloc((size_t) im->hres * sizeof(float32))) == NULL)
+       {
+-          (void) fprintf(stderr, err1);
++          (void) fprintf(stderr, "%s", err1);
+           goto err;
+       }
+     if ((vratio = (float32 *) HDmalloc((unsigned int) im->vres *
+                                          sizeof(float32))) == NULL)
+       {
+-          (void) fprintf(stderr, err1);
++          (void) fprintf(stderr, "%s", err1);
+           goto err;
+       }
+     if (in->rank == 3)
+@@ -2337,7 +2337,7 @@ interp(struct Input *in, struct Raster *
+           if ((dratio = (float32 *) HDmalloc((unsigned int) im->dres *
+                                                sizeof(float32))) == NULL)
+             {
+-                (void) fprintf(stderr, err1);
++                (void) fprintf(stderr, "%s", err1);
+                 goto err;
+             }
+       }
+@@ -2349,13 +2349,13 @@ interp(struct Input *in, struct Raster *
+     if ((hinc = (int *) HDmalloc((unsigned int) im->hres *
+                                    sizeof(int))) == NULL)
+       {
+-          (void) fprintf(stderr, err1);
++          (void) fprintf(stderr, "%s", err1);
+           goto err;
+       }
+     if ((voff = (int *) HDmalloc((unsigned int) (im->vres + 1) *
+                                    sizeof(int))) == NULL)
+       {
+-          (void) fprintf(stderr, err1);
++          (void) fprintf(stderr, "%s", err1);
+           goto err;
+       }
+     if (in->rank == 3)
+@@ -2363,7 +2363,7 @@ interp(struct Input *in, struct Raster *
+           if ((doff = (int *) HDmalloc((unsigned int) (im->dres + 1) *
+                                          sizeof(int))) == NULL)
+             {
+-                (void) fprintf(stderr, err1);
++                (void) fprintf(stderr, "%s", err1);
+                 goto err;
+             }
+       }
+@@ -2634,7 +2634,7 @@ palette(char *palfile)
+      */
+     if (DFR8setpalette(pal))
+       {
+-          (void) fprintf(stderr, err3);
++          (void) fprintf(stderr, "%s", err3);
+           goto err;
+       }
+ 
+@@ -2675,7 +2675,7 @@ pixrep(struct Input *in, struct Raster *
+      */
+     if ((hidx = (int *) HDmalloc((unsigned int) (im->hres + 1) * sizeof(int))) == NULL)
+       {
+-          (void) fprintf(stderr, err1);
++          (void) fprintf(stderr, "%s", err1);
+           goto err;
+       }
+ 
+@@ -2688,7 +2688,7 @@ pixrep(struct Input *in, struct Raster *
+     if ((vidx = (int *) HDmalloc((unsigned int) (im->vres + 1) *
+                                    sizeof(int))) == NULL)
+       {
+-          (void) fprintf(stderr, err1);
++          (void) fprintf(stderr, "%s", err1);
+           goto err;
+       }
+ 
+@@ -2705,7 +2705,7 @@ pixrep(struct Input *in, struct Raster *
+           if ((didx = (int *) HDmalloc((unsigned int) (im->dres + 1) *
+                                          sizeof(int))) == NULL)
+             {
+-                (void) fprintf(stderr, err1);
++                (void) fprintf(stderr, "%s", err1);
+                 goto err;
+             }
+ 
+@@ -2719,7 +2719,7 @@ pixrep(struct Input *in, struct Raster *
+     if ((pix = (unsigned char *) HDmalloc((unsigned int) (in->dims[0] + 1))) ==
+         NULL)
+       {
+-          (void) fprintf(stderr, err1);
++          (void) fprintf(stderr, "%s", err1);
+           goto err;
+       }
+     for (k = 0, odidx = didx[0] - 1; k < im->dres; k++)
+@@ -2836,35 +2836,35 @@ alloc_data(VOIDP *data, int32 len, int o
+ 	case 5: /* NO_NE */
+ 	    if ((*data = (VOIDP) HDmalloc((size_t) len * sizeof(float32))) == NULL)
+ 	      {
+-		(void) fprintf(stderr, alloc_err);
++		(void) fprintf(stderr, "%s", alloc_err);
+ 		return FAIL;
+ 	      }
+ 	    break;
+ 	case 1: /* 64-bit float */
+ 	    if ((*data = (VOIDP) HDmalloc((size_t) len * sizeof(float64))) == NULL)
+ 	      {
+-		(void) fprintf(stderr, alloc_err);
++		(void) fprintf(stderr, "%s", alloc_err);
+ 		return FAIL;
+ 	      }
+ 	    break;
+ 	case 2: /* 32-bit integer */
+ 	    if ((*data = (VOIDP) HDmalloc((size_t) len * sizeof(int32))) == NULL)
+ 	      {
+-		(void) fprintf(stderr, alloc_err);
++		(void) fprintf(stderr, "%s", alloc_err);
+ 		return FAIL;
+ 	      }
+ 	    break;
+ 	case 3: /* 16-bit integer */
+ 	    if ((*data = (VOIDP) HDmalloc((size_t) len * sizeof(int16))) == NULL)
+ 	      {
+-		(void) fprintf(stderr, alloc_err);
++		(void) fprintf(stderr, "%s", alloc_err);
+ 		return FAIL;
+ 	      }
+ 	    break;
+ 	case 4: /* 8-bit integer */
+ 	    if ((*data = (VOIDP) HDmalloc((size_t) len * sizeof(int8))) == NULL)
+ 	      {
+-		(void) fprintf(stderr, alloc_err);
++		(void) fprintf(stderr, "%s", alloc_err);
+ 		return FAIL;
+ 	      }
+ 	    break;
+@@ -2895,7 +2895,7 @@ write_SDS(int32 sds_id, struct Input *in
+ 	start[1] = 0;
+ 	if (SDwritedata(sds_id, start, NULL, edges, (VOIDP)in->data) != 0)
+ 	  {
+-	    (void) fprintf(stderr, write_err);
++	    (void) fprintf(stderr, "%s", write_err);
+ 	    return FAIL;
+ 	  }
+       }
+@@ -2910,7 +2910,7 @@ write_SDS(int32 sds_id, struct Input *in
+ 	start[2] = 0;
+ 	if (SDwritedata(sds_id, start, NULL, edges, (VOIDP)in->data) != 0)
+ 	  {
+-	    (void) fprintf(stderr, write_err);
++	    (void) fprintf(stderr, "%s", write_err);
+ 	    return FAIL;
+ 	  }
+       }
+@@ -3157,7 +3157,7 @@ process(struct Options *opt)
+ 			/* set range */
+ 			if (SDsetrange(sds_id, &in.max, &in.min)!=0)
+ 			  {
+-			    (void) fprintf(stderr, err5a);
++			    (void) fprintf(stderr, "%s", err5a);
+ 			    goto err;
+ 			  }	
+ 		    
+@@ -3185,7 +3185,7 @@ process(struct Options *opt)
+ 			/* set range */
+ 			if (SDsetrange(sds_id, &in.fp64s.max, &in.fp64s.min)!=0)
+ 			  {
+-			    (void) fprintf(stderr, err5a);
++			    (void) fprintf(stderr, "%s", err5a);
+ 			    goto err;
+ 			  }	
+ 		    
+@@ -3214,7 +3214,7 @@ process(struct Options *opt)
+ 			/* set range */
+ 			if (SDsetrange(sds_id, &in.in32s.max, &in.in32s.min)!=0)
+ 			  {
+-			    (void) fprintf(stderr, err5a);
++			    (void) fprintf(stderr, "%s", err5a);
+ 			    goto err;
+ 			  }	
+ 		    
+@@ -3242,7 +3242,7 @@ process(struct Options *opt)
+ 			/* set range */
+ 			if (SDsetrange(sds_id, &in.in16s.max, &in.in16s.min)!=0)
+ 			  {
+-			    (void) fprintf(stderr, err5a);
++			    (void) fprintf(stderr, "%s", err5a);
+ 			    goto err;
+ 			  }	
+ 		    
+@@ -3270,7 +3270,7 @@ process(struct Options *opt)
+ 			/* set range */
+ 			if (SDsetrange(sds_id, &in.in8s.max, &in.in8s.min)!=0)
+ 			  {
+-			    (void) fprintf(stderr, err5a);
++			    (void) fprintf(stderr, "%s", err5a);
+ 			    goto err;
+ 			  }	
+ 		    
+@@ -3290,7 +3290,7 @@ process(struct Options *opt)
+ 	    /* close data set */
+ 	    if (SDendaccess(sds_id) == FAIL )
+ 	      {
+-		(void) fprintf(stderr, err6a);
++		(void) fprintf(stderr, "%s", err6a);
+ 		goto err;
+ 	      }
+ 
+@@ -3316,7 +3316,7 @@ process(struct Options *opt)
+                 im.hres = (opt->hres == 0) ? in.dims[0] : opt->hres;
+                 if ((im.hres < in.dims[0]) && (opt->ctm == EXPAND))
+                   {
+-                      (void) fprintf(stderr, err3a);
++                      (void) fprintf(stderr, "%s", err3a);
+                       (void) fprintf(stderr, err3b, "Horiz.");
+                       (void) fprintf(stderr, err3c, "horiz.");
+                       (void) fprintf(stderr, err3d, in.dims[0]);
+@@ -3326,7 +3326,7 @@ process(struct Options *opt)
+                 im.vres = (opt->vres == 0) ? in.dims[1] : opt->vres;
+                 if ((im.vres < in.dims[1]) && (opt->ctm == EXPAND))
+                   {
+-                      (void) fprintf(stderr, err3a);
++                      (void) fprintf(stderr, "%s", err3a);
+                       (void) fprintf(stderr, err3b, "Vert.");
+                       (void) fprintf(stderr, err3c, "vert.");
+                       (void) fprintf(stderr, err3d, in.dims[1]);
+@@ -3341,7 +3341,7 @@ process(struct Options *opt)
+                       if ((im.dres < in.dims[2]) &&
+                           (opt->ctm == EXPAND))
+                         {
+-                            (void) fprintf(stderr, err3a);
++                            (void) fprintf(stderr, "%s", err3a);
+                             (void) fprintf(stderr, err3b, "Depth");
+                             (void) fprintf(stderr, err3c, "depth");
+                             (void) fprintf(stderr, err3d,
+@@ -3353,7 +3353,7 @@ process(struct Options *opt)
+                 len = im.hres * im.vres * im.dres;
+                 if ((im.image = (unsigned char *) HDmalloc((unsigned int) len)) == NULL)
+                   {
+-                      (void) fprintf(stderr, err2);
++                      (void) fprintf(stderr, "%s", err2);
+                       goto err;
+                   }
+ 
+@@ -3383,7 +3383,7 @@ process(struct Options *opt)
+                       if (DFR8addimage(opt->outfile, ip, im.hres,
+                                        im.vres, DFTAG_RLE))
+                         {
+-                            (void) fprintf(stderr, err4);
++                            (void) fprintf(stderr, "%s", err4);
+                             goto err;
+                         }
+                   }
+@@ -3424,7 +3424,7 @@ process(struct Options *opt)
+     /* close the output file */
+     if (SDend (sd_id) != 0)
+       {
+-	(void) fprintf(stderr, err6);
++	(void) fprintf(stderr, "%s", err6);
+ 	goto err;
+       }
+ 	
+@@ -3513,13 +3513,13 @@ static int init_scales(struct Input * in
+       if ((in->hscale = (float32 *) HDmalloc((size_t)
+ 					     (in->dims[0] + 1) * sizeof(float32))) == NULL)
+ 	{
+-	  (void) fprintf(stderr, err1);
++	  (void) fprintf(stderr, "%s", err1);
+ 	  goto err;
+ 	}
+       if ((in->vscale = (float32 *) HDmalloc((size_t)
+ 					     (in->dims[1] + 1) * sizeof(float32))) == NULL)
+ 	{
+-	  (void) fprintf(stderr, err1);
++	  (void) fprintf(stderr, "%s", err1);
+ 	  goto err;
+ 	}
+       if (in->rank == 3)
+@@ -3527,7 +3527,7 @@ static int init_scales(struct Input * in
+ 	  if ((in->dscale = (float32 *) HDmalloc((size_t)
+ 						 (in->dims[2] + 1) * sizeof(float32))) == NULL)
+ 	    {
+-	      (void) fprintf(stderr, err1);
++	      (void) fprintf(stderr, "%s", err1);
+ 	      goto err;
+ 	    }
+ 	}
+@@ -3538,13 +3538,13 @@ static int init_scales(struct Input * in
+       if ((in->fp64s.hscale = (float64 *) HDmalloc((size_t)
+ 						   (in->dims[0] + 1) * sizeof(float64))) == NULL)
+ 	{
+-	    (void) fprintf(stderr, err1);
++	    (void) fprintf(stderr, "%s", err1);
+ 	    goto err;
+ 	}
+       if ((in->fp64s.vscale = (float64 *) HDmalloc((size_t)
+ 						   (in->dims[1] + 1) * sizeof(float64))) == NULL)
+ 	{
+-	  (void) fprintf(stderr, err1);
++	  (void) fprintf(stderr, "%s", err1);
+ 	  goto err;
+ 	}
+       if (in->rank == 3)
+@@ -3552,7 +3552,7 @@ static int init_scales(struct Input * in
+ 	  if ((in->fp64s.dscale = (float64 *) HDmalloc((size_t)
+ 						  (in->dims[2] + 1) * sizeof(float64))) == NULL)
+ 	    {
+-	      (void) fprintf(stderr, err1);
++	      (void) fprintf(stderr, "%s", err1);
+ 	      goto err;
+ 	    }
+ 	}
+@@ -3561,13 +3561,13 @@ static int init_scales(struct Input * in
+       if ((in->in32s.hscale = (int32 *) HDmalloc((size_t)
+ 						 (in->dims[0] + 1) * sizeof(int32))) == NULL)
+ 	{
+-	  (void) fprintf(stderr, err1);
++	  (void) fprintf(stderr, "%s", err1);
+ 	  goto err;
+ 	}
+       if ((in->in32s.vscale = (int32 *) HDmalloc((size_t)
+ 						 (in->dims[1] + 1) * sizeof(int32))) == NULL)
+ 	{
+-	  (void) fprintf(stderr, err1);
++	  (void) fprintf(stderr, "%s", err1);
+ 	  goto err;
+ 	}
+       if (in->rank == 3)
+@@ -3575,7 +3575,7 @@ static int init_scales(struct Input * in
+ 	  if ((in->in32s.dscale = (int32 *) HDmalloc((size_t)
+                              (in->dims[2] + 1) * sizeof(int32))) == NULL)
+ 	    {
+-	      (void) fprintf(stderr, err1);
++	      (void) fprintf(stderr, "%s", err1);
+ 	      goto err;
+ 	    }
+ 	}
+@@ -3585,13 +3585,13 @@ static int init_scales(struct Input * in
+       if ((in->in16s.hscale = (int16 *) HDmalloc((size_t)
+ 						 (in->dims[0] + 1) * sizeof(int16))) == NULL)
+ 	{
+-	  (void) fprintf(stderr, err1);
++	  (void) fprintf(stderr, "%s", err1);
+ 	  goto err;
+ 	}
+       if ((in->in16s.vscale = (int16 *) HDmalloc((size_t)
+ 						 (in->dims[1] + 1) * sizeof(int16))) == NULL)
+ 	{
+-	  (void) fprintf(stderr, err1);
++	  (void) fprintf(stderr, "%s", err1);
+ 	  goto err;
+ 	}
+       if (in->rank == 3)
+@@ -3599,7 +3599,7 @@ static int init_scales(struct Input * in
+ 	  if ((in->in16s.dscale = (int16 *) HDmalloc((size_t)
+ 						     (in->dims[2] + 1) * sizeof(int16))) == NULL)
+ 	    {
+-	      (void) fprintf(stderr, err1);
++	      (void) fprintf(stderr, "%s", err1);
+ 	      goto err;
+ 	    }
+ 	}
+@@ -3609,13 +3609,13 @@ static int init_scales(struct Input * in
+       if ((in->in8s.hscale = (int8 *) HDmalloc((size_t)
+ 					       (in->dims[0] + 1) * sizeof(int8))) == NULL)
+ 	{
+-	  (void) fprintf(stderr, err1);
++	  (void) fprintf(stderr, "%s", err1);
+ 	  goto err;
+ 	}
+       if ((in->in8s.vscale = (int8 *) HDmalloc((size_t)
+                              (in->dims[1] + 1) * sizeof(int8))) == NULL)
+ 	{
+-	  (void) fprintf(stderr, err1);
++	  (void) fprintf(stderr, "%s", err1);
+ 	  goto err;
+ 	}
+       if (in->rank == 3)
+@@ -3623,7 +3623,7 @@ static int init_scales(struct Input * in
+ 	  if ((in->in8s.dscale = (int8 *) HDmalloc((size_t)
+ 						   (in->dims[2] + 1) * sizeof(int8))) == NULL)
+ 	    {
+-	      (void) fprintf(stderr, err1);
++	      (void) fprintf(stderr, "%s", err1);
+ 	      goto err;
+ 	    }
+ 	}
