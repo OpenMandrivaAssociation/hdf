@@ -15,6 +15,8 @@ URL:		http://www.hdfgroup.org/
 Source0:	ftp://ftp.hdfgroup.org/HDF/HDF_Current/src/%{name}-%{version}.tar.bz2
 # fedora patches
 Patch0:		hdf-4.2.5-maxavailfiles.patch
+Patch1:		hdf-4.2.6-tirpc.patch
+Patch2:		hdf-4.2.6-compile.patch
 # since there is not support for ppc, sparc & s390
 # not going to import patches
 # mandriva patches
@@ -82,6 +84,12 @@ Obsoletes:	%{oldname}
 %prep
 %setup -q
 %apply_patches
+
+libtoolize --force
+aclocal
+autoheader
+automake -a
+autoconf
 
 # Make it lib64 aware
 find . -name Makefile.in | \

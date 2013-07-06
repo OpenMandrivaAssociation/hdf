@@ -1,0 +1,22 @@
+--- hdf-4.2.6/mfhdf/ncdump/Makefile.am.omv~	2013-07-06 15:44:13.767166519 +0200
++++ hdf-4.2.6/mfhdf/ncdump/Makefile.am	2013-07-06 15:44:29.018325307 +0200
+@@ -20,7 +20,7 @@ man1_MANS = ncdump.1
+ 
+ ## Information for building the "ncdump" program
+ ncdump_SOURCES = dumplib.c ncdump.c vardata.c
+-ncdump_LDADD = ../libsrc/libmfhdf.la $(top_builddir)/hdf/src/libdf.la
++ncdump_LDADD = ../libsrc/libmfhdf.la $(top_builddir)/hdf/src/libdf.la -ltirpc
+ ncdump_DEPENDENCIES = $(top_builddir)/hdf/src/libdf.la ../libsrc/libmfhdf.la
+ 
+ check: ncdump $(srcdir)/test0.cdl
+--- hdf-4.2.6/mfhdf/libsrc/Makefile.am.omv~	2013-07-06 15:49:02.072161584 +0200
++++ hdf-4.2.6/mfhdf/libsrc/Makefile.am	2013-07-06 15:49:19.841345800 +0200
+@@ -38,6 +38,8 @@ XDRLIB = ../xdr/libxdr.la
+ libmfhdf_la_LIBADD = $(XDRLIB)
+ endif
+ 
++libmfhdf_la_LIBADD = -ltirpc
++
+ if HDF_BUILD_NETCDF
+ include_HEADERS = hdf2netcdf.h local_nc.h mfhdf.h netcdf.h mfhdfi.h mfdatainfo.h
+ else

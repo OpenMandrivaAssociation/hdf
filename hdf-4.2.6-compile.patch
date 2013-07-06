@@ -1,0 +1,69 @@
+--- hdf-4.2.6/hdf/src/H4api_adpt.h.0002~	2011-04-13 20:51:16.000000000 +0200
++++ hdf-4.2.6/hdf/src/H4api_adpt.h	2013-07-06 16:19:56.473407601 +0200
+@@ -26,7 +26,7 @@
+ 
+ 
+ /* This will only be defined if HDF4 was built with CMake */
+-#if defined(H4_BUILT_AS_DYNAMIC_LIB)
++#if 1 /*defined(H4_BUILT_AS_DYNAMIC_LIB)*/
+ 
+ #if defined(xdr_EXPORTS)
+   #if defined (_MSC_VER)  /* MSVC Compiler Case */
+@@ -36,7 +36,7 @@
+   #endif
+ #endif /* xdr_EXPORTS */
+ 
+-#if defined(hdf_EXPORTS)
++#if 1 /*defined(hdf_EXPORTS)*/
+   #if defined (_MSC_VER)  /* MSVC Compiler Case */
+     #define HDFERRPUBLIC __declspec(dllimport)
+     #define HDFPUBLIC __declspec(dllexport)
+--- hdf-4.2.6/hdf/src/herr.c.0002~	2007-11-16 00:41:13.000000000 +0100
++++ hdf-4.2.6/hdf/src/herr.c	2013-07-06 16:19:56.473407601 +0200
+@@ -61,6 +61,8 @@ error_t;
+ /* pointer to the structure to hold error messages */
+ PRIVATE error_t *error_stack = NULL;
+ 
++__attribute__((visibility("default"))) int32 error_top = 0;
++
+ #ifndef DEFAULT_MESG
+ #   define DEFAULT_MESG "Unknown error"
+ #endif
+--- hdf-4.2.6/hdf/src/herr.h.0002~	2011-04-13 20:51:16.000000000 +0200
++++ hdf-4.2.6/hdf/src/herr.h	2013-07-06 16:23:35.198829193 +0200
+@@ -91,19 +91,17 @@
+ 
+ 
+ /* always points to the next available slot; the last error record is in slot (top-1) */
+-#if defined(H4_BUILT_AS_DYNAMIC_LIB)
++#if 1 /*defined(H4_BUILT_AS_DYNAMIC_LIB)*/
+ #ifdef _H_ERR_MASTER_
+ #if defined _WIN32 && defined hdf_EXPORTS
+ __declspec(dllexport)
+-#endif
+ #else
+ HDFERRPUBLIC
++#endif
++#else
++extern
+ #endif /* _H_ERR_MASTER_ */
+-int32       error_top
+-#ifdef _H_ERR_MASTER_
+-= 0
+-#endif /* _H_ERR_MASTER_ */
+-;
++int32       error_top;
+ #else /* defined(H4_BUILT_AS_DYNAMIC_LIB) */
+ #ifndef _H_ERR_MASTER_
+ #if defined _WIN32 && defined HDFAPDLL
+--- hdf-4.2.6/mfhdf/libsrc/Makefile.am.omv~	2013-07-06 16:25:31.374120165 +0200
++++ hdf-4.2.6/mfhdf/libsrc/Makefile.am	2013-07-06 16:26:02.417457745 +0200
+@@ -38,7 +38,7 @@ XDRLIB = ../xdr/libxdr.la
+ libmfhdf_la_LIBADD = $(XDRLIB)
+ endif
+ 
+-libmfhdf_la_LIBADD = -ltirpc
++libmfhdf_la_LIBADD = -ltirpc ../../hdf/src/libdf.la
+ 
+ if HDF_BUILD_NETCDF
+ include_HEADERS = hdf2netcdf.h local_nc.h mfhdf.h netcdf.h mfhdfi.h mfdatainfo.h
