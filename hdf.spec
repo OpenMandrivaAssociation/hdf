@@ -1,9 +1,9 @@
 %define _disable_ld_no_undefined 1
-%define oldname	HDF
+
 %define major	0
-%define libdf		%mklibname	df %{major}
-%define libmfhdf	%mklibname	mfhdf %{major}
-%define develname	%mklibname	%{name} -d
+%define libdf	%mklibname df %{major}
+%define libmfhdf %mklibname mfhdf %{major}
+%define devname	%mklibname %{name} -d
 
 Summary:	Hierarchical Data Format Library
 Name:		hdf
@@ -11,7 +11,7 @@ Version:	4.2.6
 Release:	1
 License:	BSD
 Group:		Development/C
-URL:		http://www.hdfgroup.org/
+Url:		http://www.hdfgroup.org/
 Source0:	ftp://ftp.hdfgroup.org/HDF/HDF_Current/src/%{name}-%{version}.tar.bz2
 # fedora patches
 Patch0:		hdf-4.2.5-maxavailfiles.patch
@@ -25,9 +25,9 @@ Patch7:		HDF4.2r4-format_not_a_string_literal_and_no_format_arguments.diff
 BuildRequires:	byacc
 BuildRequires:	flex
 BuildRequires:	chrpath
-BuildRequires:	zlib-devel
 BuildRequires:	jpeg-devel
-BuildRequires:	netcdf-devel
+BuildRequires:	pkgconfig(netcdf)
+BuildRequires:	pkgconfig(zlib)
 
 %description
 HDF is a multi-object file format that facilitates the transfer of various
@@ -40,56 +40,44 @@ prepare raw image of data files or for use with other NCSA software.
 %package util
 Summary:	HDF utilities and test data files
 Group:		Graphics
-%rename	%{oldname}-util
 
 %description util
 This package contains utilities for HDF data manipulation and
 test data files.
 
 %package -n %{libdf}
-Summary:    Libraries for the %{name} package
-Group:      System/Libraries
+Summary:	Libraries for the %{name} package
+Group:		System/Libraries
 
 %description -n %{libdf}
-The HDF library contains interfaces for storing and retrieving compressed or
-uncompressed 8-bit and 24=bit raster images with palettes,
-n-Dimensional scientific datasets and binary tables. AN interface is also
-included that allows arbitrary grouping of other HDF objects.
-
-Libraries for %{name}.
+Library for %{name}.
 
 %package -n %{libmfhdf}
-Summary:    Libraries for the %{name} package
-Group:      System/Libraries
+Summary:	Libraries for the %{name} package
+Group:		System/Libraries
 
 %description -n %{libmfhdf}
-The HDF library contains interfaces for storing and retrieving compressed or
-uncompressed 8-bit and 24=bit raster images with palettes,
-n-Dimensional scientific datasets and binary tables. AN interface is also
-included that allows arbitrary grouping of other HDF objects.
+Library for %{name}.
 
-Libraries for %{name}.
+%package -n %{devname}
+Summary:	Development headers and development libraries
+Group:		Development/Other
+Requires:	%{libdf} = %{version}
+Requires:	%{libmfhdf} = %{version}
+Provides:	%{name}-devel = %{version}-%{release}
 
-%package -n %{develname}
-Summary:    Development headers and development libraries
-Group:      Development/Other
-Requires:   %{libdf} = %{version}
-Requires:   %{libmfhdf} = %{version}
-Provides:   %{oldname}-devel = %{version}-%{release}
-Obsoletes:	%{oldname}
-
-%description -n %{develname}
+%description -n %{devname}
 %{name} development headers and libraries.
 
 %prep
 %setup -q
 %apply_patches
-
-libtoolize --force
-aclocal
-autoheader
-automake -a
-autoconf
+autoreconf -fi
+#libtoolize --force
+#aclocal
+#autoheader
+#automake -a
+#autoconf
 
 # Make it lib64 aware
 find . -name Makefile.in | \
@@ -120,7 +108,6 @@ cp -a hdf/util/testfiles/* samples
 make check
 
 %install
-rm -rf %{buildroot}
 %makeinstall_std
 
 # remove files already provided by other packages (libjpeg, netcdf, zlib)
@@ -171,7 +158,7 @@ chrpath -d \
 %files -n %{libmfhdf}
 %{_libdir}/libmfhdf.so.%{major}*
 
-%files -n %{develname}
+%files -n %{devname}
 %doc COPYING
 %{_libdir}/lib*.so
 %{_libdir}/libhdf4.settings
