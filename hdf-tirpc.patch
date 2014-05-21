@@ -1,0 +1,22 @@
+--- hdf-4.2.10/mfhdf/libsrc/Makefile.am.orig	2014-05-21 10:28:37.997539594 -0300
++++ hdf-4.2.10/mfhdf/libsrc/Makefile.am	2014-05-21 10:29:18.081537979 -0300
+@@ -38,6 +38,8 @@ XDRLIB = $(top_builddir)/mfhdf/xdr/libxd
+ libmfhdf_la_LIBADD = $(XDRLIB)
+ endif
+ 
++libmfhdf_la_LIBADD = -ltirpc
++
+ if HDF_BUILD_NETCDF
+ include_HEADERS = hdf2netcdf.h local_nc.h mfhdf.h netcdf.h mfhdfi.h mfdatainfo.h
+ else
+--- hdf-4.2.10/mfhdf/ncdump/Makefile.am.orig	2014-05-21 10:28:37.997539594 -0300
++++ hdf-4.2.10/mfhdf/ncdump/Makefile.am	2014-05-21 10:28:56.313538856 -0300
+@@ -12,7 +12,7 @@ DEFINES=-DNDEBUG -DHDF
+ AM_CPPFLAGS=$(INCLUDES) $(DEFINES)
+ 
+ ## Add ncdump specific linker flags here
+-ncdump_LDFLAGS = $(LT_STATIC_EXEC) $(AM_LDFLAGS)
++ncdump_LDFLAGS = $(LT_STATIC_EXEC) $(AM_LDFLAGS) -ltirpc
+ 
+ #############################################################################
+ ##                          Programs to build                              ##

@@ -1,12 +1,12 @@
-diff -Naurp HDF4.2r4/hdf/util/hdf2gif.c HDF4.2r4.oden/hdf/util/hdf2gif.c
---- HDF4.2r4/hdf/util/hdf2gif.c	2007-09-10 18:36:16.000000000 +0200
-+++ HDF4.2r4.oden/hdf/util/hdf2gif.c	2009-08-17 13:49:59.000000000 +0200
+diff -up hdf-4.2.9/hdf/util/hdf2gif.c.format hdf-4.2.9/hdf/util/hdf2gif.c
+--- hdf-4.2.9/hdf/util/hdf2gif.c.format	2013-02-07 21:44:54.000000000 -0700
++++ hdf-4.2.9/hdf/util/hdf2gif.c	2014-01-31 22:49:26.533838223 -0700
 @@ -143,7 +143,7 @@ int main(int argc , char **argv) {
  	if(file_id == -1) {
  		printf("Unable to open HDF file");
  		status = HEvalue(1);
 -		printf(HEstring(status));
-+		printf("%s", HEstring(status));
++		printf("%s",HEstring(status));
  		exit(0);
  	}
  	
@@ -15,26 +15,26 @@ diff -Naurp HDF4.2r4/hdf/util/hdf2gif.c HDF4.2r4.oden/hdf/util/hdf2gif.c
  	if ((status = GRfileinfo(gr_id , &n_images , &n_fileattributes)) == -1) {
  		status = HEvalue(1);
 -		printf(HEstring(status));
-+		printf("%s", HEstring(status));
++		printf("%s",HEstring(status));
  		exit(0);
  	}
  	
-diff -Naurp HDF4.2r4/hdf/util/writehdf.c HDF4.2r4.oden/hdf/util/writehdf.c
---- HDF4.2r4/hdf/util/writehdf.c	2007-09-10 18:36:16.000000000 +0200
-+++ HDF4.2r4.oden/hdf/util/writehdf.c	2009-08-17 13:49:59.000000000 +0200
+diff -up hdf-4.2.9/hdf/util/writehdf.c.format hdf-4.2.9/hdf/util/writehdf.c
+--- hdf-4.2.9/hdf/util/writehdf.c.format	2013-02-07 21:44:54.000000000 -0700
++++ hdf-4.2.9/hdf/util/writehdf.c	2014-01-31 22:38:49.331653168 -0700
 @@ -77,13 +77,13 @@ char     *GIFFileName;
  	if(file_id == -1) {
  		printf("Unable to create HDF file");
  		status = HEvalue(1);
 -		printf(HEstring(status));
-+		printf("%s", HEstring(status));
++		printf("%s",HEstring(status));
  		exit(0);
  	}
  
  	if ((status = Vstart(file_id)) == -1) {
  		printf("Could not start VGroup interface\n");
 -		printf(HEstring(HEvalue(1)));
-+		printf("%s", HEstring(HEvalue(1)));
++		printf("%s",HEstring(HEvalue(1)));
  		exit(-1);
  	}
  
@@ -43,7 +43,7 @@ diff -Naurp HDF4.2r4/hdf/util/writehdf.c HDF4.2r4.oden/hdf/util/writehdf.c
  		if (status) {
  			printf("Could not add global palette.\n");
 -			printf(HEstring(HEvalue(1)));
-+			printf("%s", HEstring(HEvalue(1)));
++			printf("%s",HEstring(HEvalue(1)));
  		}
  	}
  	for (i = 0 ; i < CommentCount ; i++) {
@@ -52,7 +52,7 @@ diff -Naurp HDF4.2r4/hdf/util/writehdf.c HDF4.2r4.oden/hdf/util/writehdf.c
  		if ((status = GRsetcompress(ri_id, comp_type, &c_info)) == -1) {
  			printf("Error occured while setting compression\n");
 -			printf(HEstring(HEvalue(1)));
-+			printf("%s", HEstring(HEvalue(1)));
++			printf("%s",HEstring(HEvalue(1)));
  			exit(-1);
  		}
  
@@ -60,7 +60,7 @@ diff -Naurp HDF4.2r4/hdf/util/writehdf.c HDF4.2r4.oden/hdf/util/writehdf.c
  		if ((status = GRwriteimage(ri_id, start, NULL, edges, (VOIDP)gifImageDesc.Image)) == -1) {
  			printf("Error occured while trying to write GR image\n");
 -			printf(HEstring(HEvalue(1)));
-+			printf("%s", HEstring(HEvalue(1)));
++			printf("%s",HEstring(HEvalue(1)));
  			exit(-1);
  		}
  
@@ -69,7 +69,7 @@ diff -Naurp HDF4.2r4/hdf/util/writehdf.c HDF4.2r4.oden/hdf/util/writehdf.c
  		if ((status = GRwritelut (pal_id , 3, DFNT_UINT8, interlace_mode, 256, (VOIDP)gifImageDesc.HDFPalette)) == -1) {
  			printf("Could not write palette\n");
 -			printf(HEstring(HEvalue(1)));
-+			printf("%s", HEstring(HEvalue(1)));
++			printf("%s",HEstring(HEvalue(1)));
  			exit(-1);
  		}
  		
@@ -78,7 +78,7 @@ diff -Naurp HDF4.2r4/hdf/util/writehdf.c HDF4.2r4.oden/hdf/util/writehdf.c
  		if ((status = GRendaccess(ri_id)) == -1) {
  			printf("Could not terminate GR access\n");
 -			printf(HEstring(HEvalue(1)));
-+			printf("%s", HEstring(HEvalue(1)));
++			printf("%s",HEstring(HEvalue(1)));
  			exit(-1);
  		}
  
@@ -87,7 +87,7 @@ diff -Naurp HDF4.2r4/hdf/util/writehdf.c HDF4.2r4.oden/hdf/util/writehdf.c
  		if((status = Vaddtagref(vgroup_id,(int32)1965,gr_ref))==-1) {
  			printf("Could not add tag to Vgroup");
 -			printf(HEstring(HEvalue(1)));
-+			printf("%s", HEstring(HEvalue(1)));
++			printf("%s",HEstring(HEvalue(1)));
  		}
  
  		
@@ -96,7 +96,7 @@ diff -Naurp HDF4.2r4/hdf/util/writehdf.c HDF4.2r4.oden/hdf/util/writehdf.c
  	if ((status = GRend (gr_id))==-1) {
  		printf("Could not end GR access\n");
 -		printf(HEstring(HEvalue(1)));
-+		printf("%s", HEstring(HEvalue(1)));
++		printf("%s",HEstring(HEvalue(1)));
  		printf("Trying to continue (file may be corrupt)...\n");
  	}
  	
@@ -104,7 +104,7 @@ diff -Naurp HDF4.2r4/hdf/util/writehdf.c HDF4.2r4.oden/hdf/util/writehdf.c
  	if ((status = Vdetach(vgroup_id))==-1) {
  		printf("Could not detach Vgroup\n");
 -		printf(HEstring(HEvalue(1)));
-+		printf("%s", HEstring(HEvalue(1)));
++		printf("%s",HEstring(HEvalue(1)));
  		printf("Trying to continure (file may be corrupt)...\n");
  	}
  
@@ -112,7 +112,7 @@ diff -Naurp HDF4.2r4/hdf/util/writehdf.c HDF4.2r4.oden/hdf/util/writehdf.c
  	if ((status = Vend(file_id))==-1) {
  		printf("Could not end VGroup access\n");
 -		printf(HEstring(HEvalue(1)));
-+		printf("%s", HEstring(HEvalue(1)));
++		printf("%s",HEstring(HEvalue(1)));
  		printf("Trying to continure (file may be corrupt)... \n");
  	}
  
@@ -120,14 +120,14 @@ diff -Naurp HDF4.2r4/hdf/util/writehdf.c HDF4.2r4.oden/hdf/util/writehdf.c
  	if ((status = Hclose (file_id))==-1) {
  		printf("Could not close HDF file. Fatal Error");
 -		printf(HEstring(HEvalue(1)));
-+		printf("%s", HEstring(HEvalue(1)));
++		printf("%s",HEstring(HEvalue(1)));
  		return(-1);
  	}
  	return(0);
-diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/hdfimport.c
---- HDF4.2r4/mfhdf/hdfimport/hdfimport.c	2007-12-03 21:31:07.000000000 +0100
-+++ HDF4.2r4.oden/mfhdf/hdfimport/hdfimport.c	2009-08-17 13:49:59.000000000 +0200
-@@ -622,7 +622,7 @@ main(int argc, char *argv[])
+diff -up hdf-4.2.9/mfhdf/hdfimport/hdfimport.c.format hdf-4.2.9/mfhdf/hdfimport/hdfimport.c
+--- hdf-4.2.9/mfhdf/hdfimport/hdfimport.c.format	2013-02-07 21:44:45.000000000 -0700
++++ hdf-4.2.9/mfhdf/hdfimport/hdfimport.c	2014-02-01 08:54:54.512707178 -0700
+@@ -628,7 +628,7 @@ main(int argc, char *argv[])
  	      break;
  	    case ERR:   /* command syntax error */
  	    default:
@@ -136,7 +136,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  	      usage(argv[0]);
  	      goto err;
              }
-@@ -633,7 +633,7 @@ main(int argc, char *argv[])
+@@ -639,7 +639,7 @@ main(int argc, char *argv[])
       */
      if (!outfile_named)
        {
@@ -145,7 +145,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
            usage(argv[0]);
            goto err;
        }
-@@ -650,7 +650,7 @@ main(int argc, char *argv[])
+@@ -656,7 +656,7 @@ main(int argc, char *argv[])
      return(0);
  
    err:
@@ -154,7 +154,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
      return(1);
  }
  
-@@ -954,7 +954,7 @@ gdimen(struct infilesformat infile_info,
+@@ -960,7 +960,7 @@ gdimen(struct infilesformat infile_info,
  	sds_name = (char *)HDmalloc(name_len+1);
  	if (sds_name == NULL)
            {
@@ -163,7 +163,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
              goto err;
            }
  
-@@ -2221,7 +2221,7 @@ indexes(float32 *scale, int dim, int *id
+@@ -2227,7 +2227,7 @@ indexes(float32 *scale, int dim, int *id
       */
      if ((midpt = (float32 *) HDmalloc((size_t) dim * sizeof(float32))) == NULL)
        {
@@ -172,7 +172,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
            goto err;
        }
      for (i = 0; i < dim - 1; i++)
-@@ -2323,13 +2323,13 @@ interp(struct Input *in, struct Raster *
+@@ -2329,13 +2329,13 @@ interp(struct Input *in, struct Raster *
       */
      if ((hratio = (float32 *) HDmalloc((size_t) im->hres * sizeof(float32))) == NULL)
        {
@@ -188,7 +188,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
            goto err;
        }
      if (in->rank == 3)
-@@ -2337,7 +2337,7 @@ interp(struct Input *in, struct Raster *
+@@ -2343,7 +2343,7 @@ interp(struct Input *in, struct Raster *
            if ((dratio = (float32 *) HDmalloc((unsigned int) im->dres *
                                                 sizeof(float32))) == NULL)
              {
@@ -197,7 +197,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
                  goto err;
              }
        }
-@@ -2349,13 +2349,13 @@ interp(struct Input *in, struct Raster *
+@@ -2355,13 +2355,13 @@ interp(struct Input *in, struct Raster *
      if ((hinc = (int *) HDmalloc((unsigned int) im->hres *
                                     sizeof(int))) == NULL)
        {
@@ -213,7 +213,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
            goto err;
        }
      if (in->rank == 3)
-@@ -2363,7 +2363,7 @@ interp(struct Input *in, struct Raster *
+@@ -2369,7 +2369,7 @@ interp(struct Input *in, struct Raster *
            if ((doff = (int *) HDmalloc((unsigned int) (im->dres + 1) *
                                           sizeof(int))) == NULL)
              {
@@ -222,7 +222,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
                  goto err;
              }
        }
-@@ -2634,7 +2634,7 @@ palette(char *palfile)
+@@ -2640,7 +2640,7 @@ palette(char *palfile)
       */
      if (DFR8setpalette(pal))
        {
@@ -231,7 +231,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
            goto err;
        }
  
-@@ -2675,7 +2675,7 @@ pixrep(struct Input *in, struct Raster *
+@@ -2681,7 +2681,7 @@ pixrep(struct Input *in, struct Raster *
       */
      if ((hidx = (int *) HDmalloc((unsigned int) (im->hres + 1) * sizeof(int))) == NULL)
        {
@@ -240,7 +240,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
            goto err;
        }
  
-@@ -2688,7 +2688,7 @@ pixrep(struct Input *in, struct Raster *
+@@ -2694,7 +2694,7 @@ pixrep(struct Input *in, struct Raster *
      if ((vidx = (int *) HDmalloc((unsigned int) (im->vres + 1) *
                                     sizeof(int))) == NULL)
        {
@@ -249,7 +249,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
            goto err;
        }
  
-@@ -2705,7 +2705,7 @@ pixrep(struct Input *in, struct Raster *
+@@ -2711,7 +2711,7 @@ pixrep(struct Input *in, struct Raster *
            if ((didx = (int *) HDmalloc((unsigned int) (im->dres + 1) *
                                           sizeof(int))) == NULL)
              {
@@ -258,7 +258,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
                  goto err;
              }
  
-@@ -2719,7 +2719,7 @@ pixrep(struct Input *in, struct Raster *
+@@ -2725,7 +2725,7 @@ pixrep(struct Input *in, struct Raster *
      if ((pix = (unsigned char *) HDmalloc((unsigned int) (in->dims[0] + 1))) ==
          NULL)
        {
@@ -267,7 +267,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
            goto err;
        }
      for (k = 0, odidx = didx[0] - 1; k < im->dres; k++)
-@@ -2836,35 +2836,35 @@ alloc_data(VOIDP *data, int32 len, int o
+@@ -2842,35 +2842,35 @@ alloc_data(VOIDP *data, int32 len, int o
  	case 5: /* NO_NE */
  	    if ((*data = (VOIDP) HDmalloc((size_t) len * sizeof(float32))) == NULL)
  	      {
@@ -308,7 +308,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  		return FAIL;
  	      }
  	    break;
-@@ -2895,7 +2895,7 @@ write_SDS(int32 sds_id, struct Input *in
+@@ -2901,7 +2901,7 @@ write_SDS(int32 sds_id, struct Input *in
  	start[1] = 0;
  	if (SDwritedata(sds_id, start, NULL, edges, (VOIDP)in->data) != 0)
  	  {
@@ -317,7 +317,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  	    return FAIL;
  	  }
        }
-@@ -2910,7 +2910,7 @@ write_SDS(int32 sds_id, struct Input *in
+@@ -2916,7 +2916,7 @@ write_SDS(int32 sds_id, struct Input *in
  	start[2] = 0;
  	if (SDwritedata(sds_id, start, NULL, edges, (VOIDP)in->data) != 0)
  	  {
@@ -326,7 +326,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  	    return FAIL;
  	  }
        }
-@@ -3157,7 +3157,7 @@ process(struct Options *opt)
+@@ -3163,7 +3163,7 @@ process(struct Options *opt)
  			/* set range */
  			if (SDsetrange(sds_id, &in.max, &in.min)!=0)
  			  {
@@ -335,7 +335,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  			    goto err;
  			  }	
  		    
-@@ -3185,7 +3185,7 @@ process(struct Options *opt)
+@@ -3191,7 +3191,7 @@ process(struct Options *opt)
  			/* set range */
  			if (SDsetrange(sds_id, &in.fp64s.max, &in.fp64s.min)!=0)
  			  {
@@ -344,7 +344,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  			    goto err;
  			  }	
  		    
-@@ -3214,7 +3214,7 @@ process(struct Options *opt)
+@@ -3220,7 +3220,7 @@ process(struct Options *opt)
  			/* set range */
  			if (SDsetrange(sds_id, &in.in32s.max, &in.in32s.min)!=0)
  			  {
@@ -353,7 +353,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  			    goto err;
  			  }	
  		    
-@@ -3242,7 +3242,7 @@ process(struct Options *opt)
+@@ -3248,7 +3248,7 @@ process(struct Options *opt)
  			/* set range */
  			if (SDsetrange(sds_id, &in.in16s.max, &in.in16s.min)!=0)
  			  {
@@ -362,7 +362,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  			    goto err;
  			  }	
  		    
-@@ -3270,7 +3270,7 @@ process(struct Options *opt)
+@@ -3276,7 +3276,7 @@ process(struct Options *opt)
  			/* set range */
  			if (SDsetrange(sds_id, &in.in8s.max, &in.in8s.min)!=0)
  			  {
@@ -371,7 +371,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  			    goto err;
  			  }	
  		    
-@@ -3290,7 +3290,7 @@ process(struct Options *opt)
+@@ -3296,7 +3296,7 @@ process(struct Options *opt)
  	    /* close data set */
  	    if (SDendaccess(sds_id) == FAIL )
  	      {
@@ -380,7 +380,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  		goto err;
  	      }
  
-@@ -3316,7 +3316,7 @@ process(struct Options *opt)
+@@ -3322,7 +3322,7 @@ process(struct Options *opt)
                  im.hres = (opt->hres == 0) ? in.dims[0] : opt->hres;
                  if ((im.hres < in.dims[0]) && (opt->ctm == EXPAND))
                    {
@@ -389,7 +389,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
                        (void) fprintf(stderr, err3b, "Horiz.");
                        (void) fprintf(stderr, err3c, "horiz.");
                        (void) fprintf(stderr, err3d, in.dims[0]);
-@@ -3326,7 +3326,7 @@ process(struct Options *opt)
+@@ -3332,7 +3332,7 @@ process(struct Options *opt)
                  im.vres = (opt->vres == 0) ? in.dims[1] : opt->vres;
                  if ((im.vres < in.dims[1]) && (opt->ctm == EXPAND))
                    {
@@ -398,7 +398,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
                        (void) fprintf(stderr, err3b, "Vert.");
                        (void) fprintf(stderr, err3c, "vert.");
                        (void) fprintf(stderr, err3d, in.dims[1]);
-@@ -3341,7 +3341,7 @@ process(struct Options *opt)
+@@ -3347,7 +3347,7 @@ process(struct Options *opt)
                        if ((im.dres < in.dims[2]) &&
                            (opt->ctm == EXPAND))
                          {
@@ -407,7 +407,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
                              (void) fprintf(stderr, err3b, "Depth");
                              (void) fprintf(stderr, err3c, "depth");
                              (void) fprintf(stderr, err3d,
-@@ -3353,7 +3353,7 @@ process(struct Options *opt)
+@@ -3359,7 +3359,7 @@ process(struct Options *opt)
                  len = im.hres * im.vres * im.dres;
                  if ((im.image = (unsigned char *) HDmalloc((unsigned int) len)) == NULL)
                    {
@@ -416,7 +416,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
                        goto err;
                    }
  
-@@ -3383,7 +3383,7 @@ process(struct Options *opt)
+@@ -3389,7 +3389,7 @@ process(struct Options *opt)
                        if (DFR8addimage(opt->outfile, ip, im.hres,
                                         im.vres, DFTAG_RLE))
                          {
@@ -425,7 +425,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
                              goto err;
                          }
                    }
-@@ -3424,7 +3424,7 @@ process(struct Options *opt)
+@@ -3430,7 +3430,7 @@ process(struct Options *opt)
      /* close the output file */
      if (SDend (sd_id) != 0)
        {
@@ -434,7 +434,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  	goto err;
        }
  	
-@@ -3513,13 +3513,13 @@ static int init_scales(struct Input * in
+@@ -3519,13 +3519,13 @@ static int init_scales(struct Input * in
        if ((in->hscale = (float32 *) HDmalloc((size_t)
  					     (in->dims[0] + 1) * sizeof(float32))) == NULL)
  	{
@@ -450,7 +450,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  	  goto err;
  	}
        if (in->rank == 3)
-@@ -3527,7 +3527,7 @@ static int init_scales(struct Input * in
+@@ -3533,7 +3533,7 @@ static int init_scales(struct Input * in
  	  if ((in->dscale = (float32 *) HDmalloc((size_t)
  						 (in->dims[2] + 1) * sizeof(float32))) == NULL)
  	    {
@@ -459,7 +459,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  	      goto err;
  	    }
  	}
-@@ -3538,13 +3538,13 @@ static int init_scales(struct Input * in
+@@ -3544,13 +3544,13 @@ static int init_scales(struct Input * in
        if ((in->fp64s.hscale = (float64 *) HDmalloc((size_t)
  						   (in->dims[0] + 1) * sizeof(float64))) == NULL)
  	{
@@ -475,7 +475,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  	  goto err;
  	}
        if (in->rank == 3)
-@@ -3552,7 +3552,7 @@ static int init_scales(struct Input * in
+@@ -3558,7 +3558,7 @@ static int init_scales(struct Input * in
  	  if ((in->fp64s.dscale = (float64 *) HDmalloc((size_t)
  						  (in->dims[2] + 1) * sizeof(float64))) == NULL)
  	    {
@@ -484,7 +484,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  	      goto err;
  	    }
  	}
-@@ -3561,13 +3561,13 @@ static int init_scales(struct Input * in
+@@ -3567,13 +3567,13 @@ static int init_scales(struct Input * in
        if ((in->in32s.hscale = (int32 *) HDmalloc((size_t)
  						 (in->dims[0] + 1) * sizeof(int32))) == NULL)
  	{
@@ -500,7 +500,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  	  goto err;
  	}
        if (in->rank == 3)
-@@ -3575,7 +3575,7 @@ static int init_scales(struct Input * in
+@@ -3581,7 +3581,7 @@ static int init_scales(struct Input * in
  	  if ((in->in32s.dscale = (int32 *) HDmalloc((size_t)
                               (in->dims[2] + 1) * sizeof(int32))) == NULL)
  	    {
@@ -509,7 +509,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  	      goto err;
  	    }
  	}
-@@ -3585,13 +3585,13 @@ static int init_scales(struct Input * in
+@@ -3591,13 +3591,13 @@ static int init_scales(struct Input * in
        if ((in->in16s.hscale = (int16 *) HDmalloc((size_t)
  						 (in->dims[0] + 1) * sizeof(int16))) == NULL)
  	{
@@ -525,7 +525,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  	  goto err;
  	}
        if (in->rank == 3)
-@@ -3599,7 +3599,7 @@ static int init_scales(struct Input * in
+@@ -3605,7 +3605,7 @@ static int init_scales(struct Input * in
  	  if ((in->in16s.dscale = (int16 *) HDmalloc((size_t)
  						     (in->dims[2] + 1) * sizeof(int16))) == NULL)
  	    {
@@ -534,7 +534,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  	      goto err;
  	    }
  	}
-@@ -3609,13 +3609,13 @@ static int init_scales(struct Input * in
+@@ -3615,13 +3615,13 @@ static int init_scales(struct Input * in
        if ((in->in8s.hscale = (int8 *) HDmalloc((size_t)
  					       (in->dims[0] + 1) * sizeof(int8))) == NULL)
  	{
@@ -550,7 +550,7 @@ diff -Naurp HDF4.2r4/mfhdf/hdfimport/hdfimport.c HDF4.2r4.oden/mfhdf/hdfimport/h
  	  goto err;
  	}
        if (in->rank == 3)
-@@ -3623,7 +3623,7 @@ static int init_scales(struct Input * in
+@@ -3629,7 +3629,7 @@ static int init_scales(struct Input * in
  	  if ((in->in8s.dscale = (int8 *) HDmalloc((size_t)
  						   (in->dims[2] + 1) * sizeof(int8))) == NULL)
  	    {
