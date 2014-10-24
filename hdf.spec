@@ -8,7 +8,7 @@
 Summary:	Hierarchical Data Format Library
 Name:		hdf
 Version:	4.2.6
-Release:	5
+Release:	5.1
 License:	BSD
 Group:		Development/C
 Url:		http://www.hdfgroup.org/
@@ -48,6 +48,7 @@ test data files.
 %package -n %{libdf}
 Summary:	Libraries for the %{name} package
 Group:		System/Libraries
+Provides:	HDF-util
 
 %description -n %{libdf}
 Library for %{name}.
