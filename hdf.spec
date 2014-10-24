@@ -15,7 +15,7 @@
 Summary:	Hierarchical Data Format Library
 Name:		hdf
 Version:	4.2.10
-Release:	3
+Release:	4
 License:	BSD
 Group:		Development/C
 Url:		http://www.hdfgroup.org/
@@ -56,6 +56,7 @@ prepare raw image of data files or for use with other NCSA software.
 %package util
 Summary:	HDF utilities and test data files
 Group:		Graphics
+Provides:	HDF-util
 
 %description util
 This package contains utilities for HDF data manipulation and
