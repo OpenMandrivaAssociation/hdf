@@ -15,7 +15,7 @@
 Summary:	Hierarchical Data Format Library
 Name:		hdf
 Version:	4.2.10
-Release:	4
+Release:	5
 License:	BSD
 Group:		Development/C
 Url:		http://www.hdfgroup.org/
