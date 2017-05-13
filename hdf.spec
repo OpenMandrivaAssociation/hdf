@@ -14,8 +14,8 @@
 
 Summary:	Hierarchical Data Format Library
 Name:		hdf
-Version:	4.2.10
-Release:	7
+Version:	4.2.12
+Release:	1
 License:	BSD
 Group:		Development/C
 Url:		http://www.hdfgroup.org/
@@ -124,7 +124,8 @@ export FFLAGS="%{optflags} -ffixed-line-length-none"
 %endif
 	--disable-production
 
-make
+%make -j1
+
 %if %{with gfortran}
 # correct the timestamps based on files used to generate the header files
 touch -c -r hdf/src/hdf.inc hdf/src/hdf.f90
