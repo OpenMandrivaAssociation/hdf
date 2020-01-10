@@ -91,7 +91,7 @@ Provides:	%{staname} = %{version}-%{release}
 
 %prep
 %setup -q
-%apply_patches
+%autopatch -p1
 autoreconf -fi
 #libtoolize --force
 #aclocal
