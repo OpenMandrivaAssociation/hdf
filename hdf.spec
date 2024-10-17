@@ -18,7 +18,7 @@ Version:	4.2.12
 Release:	2
 License:	BSD
 Group:		Development/C
-Url:		http://www.hdfgroup.org/
+Url:		https://www.hdfgroup.org/
 Source0:	ftp://ftp.hdfgroup.org/HDF/HDF_Current/src/%{name}-%{version}.tar.bz2
 # fedora patches
 Patch0:		hdf-4.2.5-maxavailfiles.patch
